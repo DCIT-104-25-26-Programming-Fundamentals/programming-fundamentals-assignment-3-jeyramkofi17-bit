@@ -80,5 +80,87 @@
 // =============================================================================
 // YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
 // =============================================================================
+const readlineSync = require("readline-sync");
 
+let tasks = [];
+
+// Function to add a task
+function addTask() {
+    const task = readlineSync.question("Enter task: ");
+    tasks.push(task);
+    console.log('Task added: "' + task + '"');
+}
+
+// Function to view all tasks
+function viewTasks() {
+    if (tasks.length === 0) {
+        console.log("Your to-do list is empty.");
+        return;
+    }
+
+    console.log("Your Tasks:");
+
+    for (let i = 0; i < tasks.length; i++) {
+        console.log((i + 1) + ". " + tasks[i]);
+    }
+}
+
+// Function to delete a task
+function deleteTask() {
+    if (tasks.length === 0) {
+        console.log("Your to-do list is empty.");
+        return;
+    }
+
+    viewTasks();
+
+    const taskNumber = readlineSync.questionInt("Enter task number to delete: ");
+
+    if (taskNumber < 1 || taskNumber > tasks.length) {
+        console.log("Error: Invalid task number.");
+        return;
+    }
+
+    const removedTask = tasks[taskNumber - 1];
+    tasks.splice(taskNumber - 1, 1);
+
+    console.log('Task "' + removedTask + '" has been removed.');
+}
+
+// Function to display the menu
+function displayMenu() {
+    console.log("\n============================");
+    console.log("     TO-DO LIST MENU");
+    console.log("============================");
+    console.log("1. Add task");
+    console.log("2. View tasks");
+    console.log("3. Delete task");
+    console.log("4. Quit");
+}
+
+// Main function
+function main() {
+    let choice;
+
+    do {
+        displayMenu();
+
+        choice = readlineSync.questionInt("Enter your choice (1-4): ");
+
+        if (choice === 1) {
+            addTask();
+        } else if (choice === 2) {
+            viewTasks();
+        } else if (choice === 3) {
+            deleteTask();
+        } else if (choice === 4) {
+            console.log("Goodbye!");
+        } else {
+            console.log("Error: Invalid menu choice.");
+        }
+
+    } while (choice !== 4);
+}
+
+main();
 
